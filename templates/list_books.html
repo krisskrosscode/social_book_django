@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if documents %}
+        <ul>
+        {% for document in documents %}
+            <li><a href="{{ document.docfile.url }}" target="_blank">{{ document.docfile.name }}</a> -> Author : {{document.author}} -> <small>[uploaded_by : {{document.uploaded_by}}] </small> </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No documents.</p>
+    {% endif %}
+
+
+{% endblock content %}

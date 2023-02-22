@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated%}
+    {% include "navbar.html" %}
+{% endif %}
+
+<h3> All Registered Users :</h3> 
+{% for user in all_users %}
+<ul>
+<li>{{user}}</li>
+</ul>
+{% endfor %}
+
+<br>
+<h3>Users that are Authors :</h3> 
+{% for user in all_users %}
+<ul>
+    {% if user.is_author%}
+        <li>{{user}}</li>
+    {% endif %}
+</ul>
+
+{% endfor %}  
+
+{% comment %} <h3> Available User Fields </h3>
+{% for uf in info %}
+
+{{uf}}<br>
+{% endfor %} {% endcomment %}
+
+{% endblock %}

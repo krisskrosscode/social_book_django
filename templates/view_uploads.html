@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated%}
+    {% include "navbar.html" %}
+{% endif %}
+
+Hello {{user}} -> is_author : {{user.is_author}}
+
+{% if user.is_author %}
+<!-- Upload form. Note enctype attribute! -->
+    <h1> Upload File Section </h1>
+    {% include 'upload_book.html' %}
+
+    <br>
+
+<!-- List of uploaded documents -->
+    <h1> List of all Uploaded Files </h1>
+    {% include 'list_books.html' %}
+    <br>
+
+<!-- Show My (Author's) books -->
+    <h1> Books by <small>{{user.username}}</small></h1>
+        {% comment %} {{author_documents}} {% endcomment %}
+
+
+    {% comment %} {% if document.docfile.uploaded_by == request.user.username %}
+        {{document.docfile.name}}
+    {% endif %} {% endcomment %}
+
+    {% for document in documents  %}
+        {% if document.uploaded_by != '' %}
+            {% if document.uploaded_by == request.user.username %}
+                {{document.docfile.name}} -> <small> Uploaded by {{document.uploaded_by}}  <a href="{{ document.docfile.url }}" target="_blank">  [[Download]]  </a> </small>
+            {% endif %}
+      
+
+        {% endif %}
+            <br>
+    {% endfor %}
+
+    <br>
+
+
+<!-- Show all users -->
+    <h1> List of All Registered users </h1>
+    {% for user in all_users %}
+        {{user}} <br>
+    {% endfor %}
+    <br>
+
+    {% else %}
+    <!-- List of uploaded documents -->
+    <h1> List of all Uploaded Files </h1>
+    {% include 'list_books.html' %}
+    <br>
+
+    <h1> List of All Authors </h1>
+    {% for user in all_users %}
+        {% if user.is_author %}
+        {{user}} <br>
+        {% endif %}
+    {% endfor %}
+    <br>
+
+{% endif %}
+    
+
+
+{% endblock %}

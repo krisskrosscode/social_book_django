@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_authenticated%}
+    {% include "navbar.html" %}
+{% endif %}
+
+
+User -> {{user}} || is_author -> {{user.is_author}}
+<h1> Index Page </h1>
+{% comment %} <a href="{% url 'upload' %}" > Upload a Book </a> <br> {% endcomment %}
+<a href="{% url 'view' %}" > User Dashboard </a><br>
+<a href="{% url 'show_users' %}" > Show Users </a><br>
+{% endblock  %}

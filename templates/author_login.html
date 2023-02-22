@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated%}
+        {% include "navbar.html" %}
+    {% endif %}
+
+    Upload books
+    Show my books
+    Show all books 
+    Show all Users
+
+
+
+{% endblock %}
