@@ -87,8 +87,14 @@ def logout_request(request):
 
 def upload_book(request):
     User = get_user_model()
+    # if request.user.is_authenticated:
+    #     user_inst = request.user.username
+    # initial_dict = {'author': user_inst}
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
+        # print(form)
+        # form.fields['author'] = User
+        # print(form)
         print('post method')
         if form.is_valid():
             print('form valid')

@@ -35,6 +35,12 @@
                     {{form.docfile}}
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label">{{form.author.label_tag}}</label>
+                <div class="col-sm-12 col-md-10">
+                    {{form.author}}
+                </div>
+            </div>
 
             <div class="form-group row">
                 <label class="col-sm-12 col-md-2 col-form-label">{{form.pen_name.label_tag}}</label>
@@ -52,12 +58,12 @@
 </div>
 </div>
 
-{% comment %} <p><input type="submit" id="multiFiles" name="files[]" value="Upload" multiple="multiple/" /></p> {% endcomment %}
+{% comment %} <p><input type="submit" id="multiFiles" name="files[]" value="Upload" multiple="multiple/" /></p>  {% endcomment %}
 </form>
 
  <div class="container-md">
     <button onclick="upload()" type="button"  class="btn btn-outline-primary">Upload</button> 
-</div>
+</div> 
 
     
     
@@ -97,6 +103,6 @@ function upload(){
                 processData: false
             });
     } 
-</script>
+</script> 
     
 {% endblock content %}

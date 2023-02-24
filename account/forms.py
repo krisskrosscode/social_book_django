@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from .models import Book, CustomUser
 from crispy_forms.helper import FormHelper
-
+from django.contrib.auth import get_user_model
 # Create your forms here.
 
 class NewUserForm(UserCreationForm):
@@ -42,8 +42,7 @@ class UploadFileForm(forms.ModelForm):
         fields = ('docfile', 'pen_name', 'author')   # changed here from "__all__"
 
     docfile = forms.FileField(
-        label='Select a file',
-        help_text='.pdf',
+        help_text='Please choose a .pdf file only',
         widget=forms.FileInput(attrs={
             'id': 'multiFiles',
             'name': 'files[]',
@@ -58,9 +57,15 @@ class UploadFileForm(forms.ModelForm):
             'class': 'form-control',
         })
     )
+    # UserInstance = get_user_model()
+    # # CHOICES = CustomUser.objects.filter(is_author=True)
+    # current_user = UserInstance.get_username(self.username)
+    author = forms.ModelChoiceField(
+        queryset=CustomUser.objects.filter(is_author=True),
+    )
 
-    # CHOICES = CustomUser.objects.filter(is_author=True)
-
-    # author = forms.ModelChoiceField(
-    #     queryset=CustomUser.objects.filter(is_author=True),
-    # )
+    # def __init__(self, *args, **kwargs):
+    #     initial = kwargs.get('initial', {})
+    #     author_initial = initial.get('author', 'username')
+    #     self.initial['author'] = author_initial
+    #     super(UploadFileForm, self).__init__(*args, **kwargs)
