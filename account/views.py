@@ -1,5 +1,5 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .forms import NewUserForm, UploadFileForm
 from django.contrib.auth import login, authenticate, logout
@@ -9,20 +9,8 @@ from django.core.files.storage import FileSystemStorage
 import os
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from .models import Book
-
-# rest framework
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from rest_framework.status import (
-    HTTP_400_BAD_REQUEST,
-    HTTP_404_NOT_FOUND,
-    HTTP_200_OK
-)
-from rest_framework.response import Response
-
+from .models import Book, CustomUser
+from django.db.models import Count
 
 def register_request(request):
     if request.method == "POST":
@@ -98,14 +86,37 @@ def logout_request(request):
 
 
 def upload_book(request):
-    context = {}
+    User = get_user_model()
     if request.method == 'POST':
-        uploaded_file = request.FILES['document']
-        # print(uploaded_file.name, uploaded_file.size)
-        fs = FileSystemStorage()
-        file = fs.save(uploaded_file.name, uploaded_file)
-        url = fs.url(file)
-        context['url'] = url
+        form = UploadFileForm(request.POST, request.FILES)
+        print('post method')
+        if form.is_valid():
+            print('form valid')
+            newdoc = Book(docfile=request.FILES['docfile'], author=User.objects.get(id=request.user.id), pen_name=request.POST['pen_name'])
+            newdoc.save()
+            print(newdoc.author)
+
+            # newdoc = form.save(commit=False)
+            # newdoc.docfile = request.FILES['docfile']
+            # newdoc.pen_name = request.POST['pen_name']
+            # newdoc.save()
+            # Redirect to the document list after POST
+            # return JsonResponse({'status': 'success'})
+            return HttpResponseRedirect(reverse('view'))
+            # return render(request, 'view_uploads.html')
+    else:
+        print('empty form')
+        form = UploadFileForm()  # A empty, unbound form
+    return render(request, 'upload_book.html', {'form': form})
+    # 1
+    # if request.method == 'POST':
+    #     uploaded_file = request.FILES['document']
+    #     fs = FileSystemStorage()
+    #     file = fs.save(uploaded_file.name, uploaded_file)
+    #     url = fs.url(file)
+    #     context['url'] = url
+
+    # 2
     # context = {}
     # if request.method == 'POST':
     #     form = UploadFileForm(request.POST, request.FILES)
@@ -116,19 +127,43 @@ def upload_book(request):
     # else:
     #     form = UploadFileForm()
     #     context['upload_book_form'] = form
-    return render(request, 'upload_book.html', context)
+
+    # 3
+    # if request.method == 'POST':
+    #     form = UploadFileForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         handle_uploaded_file(request.FILES['file'])
+    #         context = {'msg': '<span style="color: green;">File successfully uploaded</span>'}
+    #         return render(request, "upload_book.html", context)
+    # else:
+    #     form = UploadFileForm()
+
+    # context['form'] = form
+    # authors = CustomUser.objects.filter(is_author=True)
+    # context['authors'] = authors
+    # return render(request, 'upload_book.html', context)
+
+def handle_uploaded_file(f):
+    with open(f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 @login_required(login_url='login')
 def view_books(request):
     # Handle file upload
+    User = get_user_model()
+    context = {}
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            newdoc = Book(docfile=request.FILES['docfile'], author=request.POST['author'])
-            newdoc.uploaded_by = request.user.username
+            newdoc = Book(docfile=request.FILES['docfile'], author=User.objects.get(id=request.user.id), pen_name=request.POST['pen_name'])
+            # newdoc.docfile = newdoc.docfile.split('/')[-1]
             newdoc.save()
+            # handle_uploaded_file(request.FILES['docfile'])
+            # context['msg'] = '<span style="color: green;">File successfully uploaded</span>'
 
             # Redirect to the document list after POST
+            print(newdoc.author)
             return HttpResponseRedirect(reverse('view'))
     else:
         form = UploadFileForm()  # A empty, unbound form
@@ -137,14 +172,15 @@ def view_books(request):
     documents = Book.objects.all()
 
     # author_documents = Book.objects.filter(uploaded_by=request.user)
-
+    context['documents'] = documents
+    context['form'] = form
     # Extract users
     User = get_user_model()
     users = User.objects.all()
+    context['all_users'] = users
 
-    # booknames = [d.docfile.name.split('/')[-1] for d in documents]
     # Render list page with the documents and the form
-    return render(request, 'view_uploads.html', {'documents': documents, 'form': form, 'all_users': users})
+    return render(request, 'view_uploads.html', context)
 
 @login_required(login_url='login')
 def show_users(request):
@@ -155,3 +191,36 @@ def show_users(request):
     info['fields'] = User._meta.get_fields()
     params = {'all_users': users, 'staff_users': staff, 'info': info['fields']}
     return render(request, 'show_users.html', params)
+
+
+@login_required(login_url='login')
+def list_books(request):
+    documents = Book.objects.all()
+    return render(request, 'list_books.html', {'documents': documents})
+
+@login_required(login_url='login')
+def list_all_users(request):
+    User = get_user_model()
+    users = User.objects.all()
+    return render(request, 'list_all_users.html', {'all_users': users})
+
+@login_required(login_url='login')
+def list_all_authors(request):
+    User = get_user_model()
+    authors = User.objects.filter(is_author=True)
+
+    return render(request, 'list_all_authors.html', {'all_authors': authors})
+
+@login_required(login_url='login')
+def get_user_details(request, pk):
+    user = get_object_or_404(CustomUser, pk=pk)
+    filtered_books = Book.objects.filter(author=user.id)
+    total_books_uploaded = len(filtered_books)
+    return render(request, 'user_details.html', {'user': user, 'books': filtered_books, 'upload_count': total_books_uploaded})
+
+
+# @login_required(login_url='login')
+# def get_books_by_author(request, pk):
+#     authorname = get_object_or_404(CustomUser, pk=pk)
+#     filtered_books = Book.objects.filter(uploaded_by=authorname)
+#     return render(request, 'books_by_author.html', {'books': filtered_books})

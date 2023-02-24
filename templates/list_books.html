@@ -1,16 +1,63 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
+{% block content %} 
+{% if user.is_authenticated %} 
+    {% include 'navbar.html' %} 
+{% endif %}
 
-{% block content %}
+<input type="checkbox" name="my_books" /> My Books <br />
+<br />
 
-{% if documents %}
-        <ul>
-        {% for document in documents %}
-            <li><a href="{{ document.docfile.url }}" target="_blank">{{ document.docfile.name }}</a> -> Author : {{document.author}} -> <small>[uploaded_by : {{document.uploaded_by}}] </small> </li>
-        {% endfor %}
-        </ul>
-    {% else %}
+
+<div class="container-md">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="title">
+          <h1>List of All books</h1><br><br>
+        </div>
+        {% if documents %}
+        <div class="col-sm-12 container-md ">
+          <table class="data-table table stripe " id="DataTables_Table_0" role="grid">
+            <thead>
+              <tr>
+                <th>Book ID</th>
+                <th>uploaded pdf</th>
+                <th>Publish Date</th>
+                <th>Publish Time</th>
+                <th>Author</th>
+                <th>Pen Name</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for document in documents %}
+              <tr>
+                <td>{{document.id}}.</td>
+                <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" >{{ document.docfile.name }}</td>
+                <td>{{document.publish_date}}</td>
+                <td>{{document.publish_time}}</td>
+                <td>
+                  <a href="{% url 'user_details' document.author.id %}">
+                    {{document.author}}
+                  </a>
+                </td>
+                <td>{{document.pen_name}}</td>
+                <td>
+                  <a href="{{ document.docfile.url }}" target="_blank">
+                    <button class="btn btn-outline-primary">Download</button>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
         <p>No documents.</p>
-    {% endif %}
-
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock content %}

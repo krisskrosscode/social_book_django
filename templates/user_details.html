@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% include 'navbar.html' %}
+{% endif %}
+
+<br><br><br>
+
+{% if not user.is_author %}
+
+<div class="container-md">
+            <div class="page-header">
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="title">
+								<h4> Welcome User {{user.username}} <button class="btn btn-secondary btn-d-sm-block" disabled="">User</button></h4> </h4>
+							</div>
+
+                            <div class="fa-paragraph">
+                                User id : {{user.id}} <br>
+                                Username : {{user.username}}<br>
+                                Email : {{user.email}}<br>
+                                Date Joined :  {{user.date_joined}}<br>
+                                Is author : {{user.is_author}}<br>
+                                Is Staff : {{user.is_staff}}<br>
+                            </div>
+
+							
+						</div>
+					</div>
+				</div>
+        </div>
+
+
+
+
+        
+
+
+    {% else %}
+
+        <div class="container-md">
+            <div class="page-header">
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="title">
+								<h4> Welcome {{user.username}} <button class="btn btn-secondary btn-d-sm-block" disabled="">Author</button></h4>
+							</div>
+
+                            <div class="fa-paragraph">
+                                User id : {{user.id}}<br>
+                                Author name : {{user.username}} <br>
+                                Join Date : {{user.date_joined}}<br>
+                            </div>
+
+							
+						</div>
+					</div>
+				</div>
+        </div>
+
+        <div class="container-md">
+            <div class="page-header">
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="title">
+								<h3> Books uploaded by {{user.username}} </h3><br>
+							</div>
+
+                            <table class="data-table table stripe hover" id="DataTables_Table_0" role="grid" >
+							<thead>
+								{% comment %} <tr role="row"><th class="table-plus datatable-nosort sorting_asc" rowspan="1" colspan="1" aria-label="Name">User name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Office</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Address: activate to sort column ascending">Address</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">Start Date</th><th class="datatable-nosort sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="display: none;">Action</th></tr> {% endcomment %}
+                                <tr >
+                                <th >Book ID</th>
+                                <th >File Name</th>
+                                <th >Author</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for book in books %}
+                                <tr role="row">
+                                   <td> {{book.id}}. </td>
+                                   <td> {{book.docfile}} </td>
+                                   <td> {{book.author}}</td>
+                                </tr>
+                                {% endfor %}
+
+								
+							</tbody>
+                        </table>
+							
+						</div>
+					</div>
+				</div>
+        </div>
+    
+        <div class="container-md"> 
+            <div class="page-header">
+            <bold> Total Number of books uploaded :  {{upload_count}}</bold>
+            </div>
+        </div>
+<br><br><br>
+        
+
+{% endif %}
+
+
+{% endblock %}

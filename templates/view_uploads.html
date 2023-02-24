@@ -2,70 +2,69 @@
 
 {% block content %}
 
-{% if user.is_authenticated%}
+{% comment %} {% if user.is_authenticated%}
     {% include "navbar.html" %}
-{% endif %}
+{% endif %} {% endcomment %}
 
-Hello {{user}} -> is_author : {{user.is_author}}
-
-{% if user.is_author %}
 <!-- Upload form. Note enctype attribute! -->
-    <h1> Upload File Section </h1>
+    {% comment %} <h1> Upload File Section </h1> {% endcomment %}
     {% include 'upload_book.html' %}
 
     <br>
 
-<!-- List of uploaded documents -->
-    <h1> List of all Uploaded Files </h1>
-    {% include 'list_books.html' %}
-    <br>
-
-<!-- Show My (Author's) books -->
-    <h1> Books by <small>{{user.username}}</small></h1>
-        {% comment %} {{author_documents}} {% endcomment %}
-
-
-    {% comment %} {% if document.docfile.uploaded_by == request.user.username %}
-        {{document.docfile.name}}
-    {% endif %} {% endcomment %}
-
-    {% for document in documents  %}
-        {% if document.uploaded_by != '' %}
-            {% if document.uploaded_by == request.user.username %}
-                {{document.docfile.name}} -> <small> Uploaded by {{document.uploaded_by}}  <a href="{{ document.docfile.url }}" target="_blank">  [[Download]]  </a> </small>
-            {% endif %}
-      
-
-        {% endif %}
-            <br>
-    {% endfor %}
-
-    <br>
-
-
-<!-- Show all users -->
-    <h1> List of All Registered users </h1>
-    {% for user in all_users %}
-        {{user}} <br>
-    {% endfor %}
-    <br>
-
-    {% else %}
-    <!-- List of uploaded documents -->
-    <h1> List of all Uploaded Files </h1>
-    {% include 'list_books.html' %}
-    <br>
-
-    <h1> List of All Authors </h1>
-    {% for user in all_users %}
-        {% if user.is_author %}
-        {{user}} <br>
-        {% endif %}
-    {% endfor %}
-    <br>
-
-{% endif %}
     
+<div class="container-md">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="title">
+          <h1>List of All books</h1><br><br>
+        </div>
+        {% if documents %}
+        <div class="col-sm-12 container-md ">
+          <table class="data-table table stripe " id="DataTables_Table_0" role="grid">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>uploaded pdf</th>
+                <th>Publish Date</th>
+                <th>Publish Time</th>
+                <th>Author</th>
+                <th>Pen Name</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for document in documents %}
+              <tr>
+                <td>{{document.id}}.</td>
+                <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" >{{ document.docfile.name }}</td>
+                <td>{{document.publish_date}}</td>
+                <td>{{document.publish_time}}</td>
+                <td>
+                  <a href="{% url 'user_details' document.author.id %}">
+                    {{document.author}}
+                  </a>
+                </td>
+                <td>{{document.pen_name}}</td>
+                <td>
+                  <a href="{{ document.docfile.url }}" target="_blank">
+                    <button class="btn btn-outline-primary">Download</button>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p>No documents.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 {% endblock %}

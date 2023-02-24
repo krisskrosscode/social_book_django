@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 # Create your models here
 
 class CustomUser(AbstractUser, PermissionsMixin):
-    username = models.CharField(max_length=30, unique=True, default='User')
+    username = models.CharField(max_length=30, unique=False, default='User')
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
     # last_login = models.DateTimeField(verbose_name="last logged in", auto_now=True)
@@ -28,7 +28,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     objects = CustomUserManager()
 
     def __str__(self) -> str:
-        return self.email
+        return self.username
 
     # For checking permissions. to keep it simple all admin have ALL permissons
     def has_perm(self, perm, obj=None):
@@ -55,7 +55,15 @@ class Book(models.Model):
         if filename.file.content_type != 'application/pdf':
             raise ValidationError(u' ERROR : You can upload only a pdf file')
 
-    docfile = models.FileField(upload_to='documents/%Y/%m/%d', default='SampleFilename', validators=[validate_file_extension])
-    author = models.CharField(max_length=100)
-    # uploaded_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=get_user_model())
-    uploaded_by = models.CharField(max_length=100, default=get_user_model())
+    docfile = models.FileField(
+        upload_to='documents/%Y/%m/%d',
+        default='SampleFilename',
+        validators=[validate_file_extension],
+        )
+    publish_date = models.DateField(default=timezone.now)
+    publish_time = models.TimeField(default=timezone.now)
+    pen_name = models.CharField(max_length=100, default='None')
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=get_user_model())
+    # uploaded_by = models.CharField(max_length=100, default=get_user_model())
+
+    REQUIRED_FIELDS = ["docfile", "pen_name"]

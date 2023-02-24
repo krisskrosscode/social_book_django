@@ -1,19 +1,102 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
+{% if user.is_authenticated%}
+    {% include "navbar.html" %}
+{% endif %}  
+
+<br> <br>
+
+
 <!-- Upload form. Note enctype attribute! -->
-    <form action="{% url 'view' %}" method="post" enctype="multipart/form-data">
+    <form id="upload_form" action="{% url 'view' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <p>{{ form.non_field_errors }}</p>
+    
+        {% comment %} {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %} {% endcomment %}
+
+        <div id="msg"></div>
+        
+
+        <div class="container-md">
+            <div class="page-header">
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+
+                            <h1> Upload File Section </h1>
+
+                            <p>{{ form.non_field_errors }}</p>
         <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
-        <p>
             <p>{{ form.docfile.errors }}</p>
-            {{form.docfile.label_tag}}{{ form.docfile }} 
-            {{ form.author.label_tag}}{{ form.author}}
-        </p>
-        <p><input type="submit" value="Upload" /></p>
-    </form>
 
+            <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label">{{form.docfile.label_tag}}</label>
+                <div class="col-sm-12 col-md-10">
+                    {{form.docfile}}
+                </div>
+            </div>
 
+            <div class="form-group row">
+                <label class="col-sm-12 col-md-2 col-form-label">{{form.pen_name.label_tag}}</label>
+                <div class="col-sm-12 col-md-10">
+                    {{form.pen_name}}
+                </div>
+                <div class="container-md"> 
+
+                    {% comment %} <button  type="submit"  class="btn btn-outline-primary">Upload</button>  {% endcomment %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% comment %} <p><input type="submit" id="multiFiles" name="files[]" value="Upload" multiple="multiple/" /></p> {% endcomment %}
+</form>
+
+ <div class="container-md">
+    <button onclick="upload()" type="button"  class="btn btn-outline-primary">Upload</button> 
+</div>
+
+    
+    
+    <br>
+ <script 
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
+
+  
+<script>
+function upload(){
+    console.log('Uploaded');
+        var formData = new FormData($("#upload_form")[0]);
+            console.log(formData)
+            $.ajax({
+                url: "{% url 'view' %}",
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    $('.error').remove();
+                    console.log('//////',data);
+                    if(data.error){
+                        alert(data.error)
+                    }
+                    else{
+                        console.log("Success");
+                        window.alert('Your File is uploaded');
+                        window.location.href="{% url 'view' %}";
+                        
+                    }
+                },
+                error : function(data){
+                    console.log('Error occured')
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+    } 
+</script>
+    
 {% endblock content %}

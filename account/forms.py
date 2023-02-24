@@ -39,12 +39,28 @@ class UploadFileForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ('docfile', 'author')   # changed here from "__all__"
+        fields = ('docfile', 'pen_name', 'author')   # changed here from "__all__"
 
     docfile = forms.FileField(
         label='Select a file',
-        help_text='.pdf'
+        help_text='.pdf',
+        widget=forms.FileInput(attrs={
+            'id': 'multiFiles',
+            'name': 'files[]',
+            'value': 'upload',
+            'class': 'form-control',
+            'multiple': True,
+        })
     )
-    author = forms.CharField(
-        label='Author Name'
+    pen_name = forms.CharField(
+        label='Pen Name',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+        })
     )
+
+    # CHOICES = CustomUser.objects.filter(is_author=True)
+
+    # author = forms.ModelChoiceField(
+    #     queryset=CustomUser.objects.filter(is_author=True),
+    # )
