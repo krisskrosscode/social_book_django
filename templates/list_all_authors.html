@@ -26,11 +26,13 @@
         {% for author in all_authors %}
         <tr>
             <td>{{author.id}} 
-            <td id="username"> {{author.username}} </td>
-            <td id="details"> <a href="{% url 'user_details' pk=author.id %}"> view details </a> </td>
+            <td > {{author.username}} </td>
+            <td > <a href="{% url 'user_details' pk=author.id %}"> view details </a> </td>
         </tr>
         {% endfor %}
       </tbody>
+
+      
 
     </table>
   </div>

@@ -8,7 +8,7 @@
 {% endif %}
 
 
-<input type="checkbox" id="is_author"> Authors <br> <br>
+<input type="checkbox" id="is_author" > Authors <br> <br>
 
 <div class="container-md">
             <div class="page-header">
@@ -16,30 +16,40 @@
 						<div class="col-md-12 col-sm-12">
 <h5> List of all users </h5>
 <div class="col-sm-12">
-  <table class="data-table table stripe hover" id="DataTables_Table_0" role="grid" >
-							<thead>
+  <table class="data-table table stripe hover" id="DataTables_Table_0" role="grid"  >
+							<thead >
 								{% comment %} <tr role="row"><th class="table-plus datatable-nosort sorting_asc" rowspan="1" colspan="1" aria-label="Name">User name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Office</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Address: activate to sort column ascending">Address</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">Start Date</th><th class="datatable-nosort sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="display: none;">Action</th></tr> {% endcomment %}
                 <tr >
-                  <th >User ID</th>
-                  <th >Username</th>
-                  <th >Is Author</th>
-                  <th >Details</th>
+                  <th>User ID</th>
+                  <th>Username</th>
+                  <th>Is Author</th>
+                  <th>Details</th>
                 </tr>
               </thead>
-							<tbody>
+							<tbody id="body1" >
 								{% for user in all_users %}
                   <tr role="row">
-                      <td class="table-plus">{{user.id}} 
-                      <td id="username"> {{user.username}} </td>
-                      <td id="isauthor"> {% if user.is_author %} Author {% else %} User {% endif %} </td>
-                      <td id="details"> <a href="{% url 'user_details' pk=user.id %}"> view details </a> </td>
+                      <td >{{user.id}} 
+                      <td > {{user.username}} </td>
+                      <td > {% if user.is_author %} Author {% else %} User {% endif %} </td>
+                      <td > <a href="{% url 'user_details' pk=user.id %}"> view details </a> </td>
                      
                   </tr>
                 {% endfor %}
-
-								
 							</tbody>
-						
+              <tbody id="body2" style="display:none;">
+                {% for user in all_users %}
+                {% if user.is_author %}
+                <tr role="row">
+                  <td>{{user.id}}
+                  <td> {{user.username}} </td>
+                  <td> {% if user.is_author %} Author {% else %} User {% endif %} </td>
+                  <td> <a href="{% url 'user_details' pk=user.id %}"> view details </a> </td>
+                
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
               </table>
 </div>
 </div>
@@ -47,6 +57,23 @@
 </div>
 </div>
 
+ <script 
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  
+  const checkbox = document.getElementById('is_author')
+    checkbox.addEventListener('change', (event) => {
+      if (event.currentTarget.checked) {
+        $("#body1").hide();
+        $("#body2").show();
+      } else {
+        $("#body2").hide();
+        $("#body1").show();
+      }
+    })  
+  
+
+</script>
 
 
 

@@ -98,7 +98,7 @@ def upload_book(request):
         print('post method')
         if form.is_valid():
             print('form valid')
-            newdoc = Book(docfile=request.FILES['docfile'], author=User.objects.get(id=request.user.id), pen_name=request.POST['pen_name'])
+            newdoc = Book(docfile=request.FILES['docfile'], author=request.user, pen_name=request.POST['pen_name'])
             newdoc.save()
             print(newdoc.author)
 
@@ -162,7 +162,7 @@ def view_books(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            newdoc = Book(docfile=request.FILES['docfile'], author=User.objects.get(id=request.user.id), pen_name=request.POST['pen_name'])
+            newdoc = Book(docfile=request.FILES['docfile'], author=request.user, pen_name=request.POST['pen_name'])
             # newdoc.docfile = newdoc.docfile.split('/')[-1]
             newdoc.save()
             # handle_uploaded_file(request.FILES['docfile'])

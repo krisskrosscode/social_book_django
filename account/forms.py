@@ -39,7 +39,7 @@ class UploadFileForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ('docfile', 'pen_name', 'author')   # changed here from "__all__"
+        fields = ('docfile', 'pen_name')   # changed here from "__all__"
 
     docfile = forms.FileField(
         help_text='Please choose a .pdf file only',
@@ -60,9 +60,9 @@ class UploadFileForm(forms.ModelForm):
     # UserInstance = get_user_model()
     # # CHOICES = CustomUser.objects.filter(is_author=True)
     # current_user = UserInstance.get_username(self.username)
-    author = forms.ModelChoiceField(
-        queryset=CustomUser.objects.filter(is_author=True),
-    )
+    # author = forms.ModelChoiceField(
+    #     queryset=CustomUser.objects.filter(is_author=True),
+    # )
 
     # def __init__(self, *args, **kwargs):
     #     initial = kwargs.get('initial', {})
