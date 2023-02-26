@@ -75,15 +75,18 @@
                                 <tr >
                                 <th >Book ID</th>
                                 <th >File Name</th>
-                                <th >Author</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for book in books %}
                                 <tr role="row">
                                    <td> {{book.id}}. </td>
-                                   <td> {{book.docfile}} </td>
-                                   <td> {{book.author}}</td>
+                                   <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" > {{book.docfile}} </td>
+                                   <td>
+                                    <a href="{{ book.docfile.url }}" target="_blank">
+                                        <button class="btn btn-outline-primary">Download</button>
+                                    </a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
 

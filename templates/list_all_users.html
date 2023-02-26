@@ -7,15 +7,19 @@
     {% include 'navbar.html' %}
 {% endif %}
 
+<br><br>  
 
-<input type="checkbox" id="is_author" > Authors <br> <br>
-
+<h5>
+  <div class="container-md">
+<input type="checkbox" id="is_author" > Authors <br> <br></div>
+</h5>
 <div class="container-md">
             <div class="page-header">
 					<div class="row">
 						<div class="col-md-12 col-sm-12">
-<h5> List of all users </h5>
-<div class="col-sm-12">
+<h3 class="container-md"> User List </h3>
+
+<div class="col-sm-12 my-3">
   <table class="data-table table stripe hover" id="DataTables_Table_0" role="grid"  >
 							<thead >
 								{% comment %} <tr role="row"><th class="table-plus datatable-nosort sorting_asc" rowspan="1" colspan="1" aria-label="Name">User name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Office</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Address: activate to sort column ascending">Address</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">Start Date</th><th class="datatable-nosort sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="display: none;">Action</th></tr> {% endcomment %}

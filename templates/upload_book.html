@@ -68,8 +68,10 @@
 
   
 <script>
-function upload(){
-    console.log('Uploaded');
+function upload(response){
+    //console.log('Uploaded');
+
+        
         var formData = new FormData($("#upload_form")[0]);
             console.log(formData)
             $.ajax({
@@ -77,26 +79,32 @@ function upload(){
                 type: 'POST',
                 data: formData,
                 success: function (data) {
-                    $('.error').remove();
-                    console.log('//////',data);
-                    if(data.error){
-                        alert(data.error)
-                    }
-                    else{
-                        console.log("Success");
-                        window.alert('Your File is uploaded');
-                        window.location.href="{% url 'view' %}";
-                        
-                    }
+                    // $('.error').remove();
+                    //console.log(data);
+
+
+                        if(data.error){
+                            alert(data.error)
+                        }
+                        else{
+                            console.log("Success");
+                            window.alert('Your File is uploaded');
+                            window.location.href="{% url 'view' %}";
+                            
+                        }
+
+                    
                 },
                 error : function(data){
                     console.log('Error occured')
+                    window.alert('Your have an error. Please fill again');
+                    window.location.href="{% url 'upload' %}";
                 },
                 cache: false,
                 contentType: false,
                 processData: false
             });
-    } 
+    }
 </script> 
     
 {% endblock content %}
