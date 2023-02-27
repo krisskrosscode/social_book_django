@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import Book, CustomUser
 from crispy_forms.helper import FormHelper
 from django.contrib.auth import get_user_model
+from PIL import Image
 # Create your forms here.
 
 class NewUserForm(UserCreationForm):
@@ -55,8 +56,12 @@ class UploadFileForm(forms.ModelForm):
         label='Pen Name',
         widget=forms.TextInput(attrs={
             'class': 'form-control',
+            'name': 'pen_name',
+            'id': 'pen_name'
         })
     )
+
+    
     # UserInstance = get_user_model()
     # # CHOICES = CustomUser.objects.filter(is_author=True)
     # current_user = UserInstance.get_username(self.username)

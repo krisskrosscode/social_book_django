@@ -40,7 +40,7 @@
               {% for document in documents %}
               <tr>
                 <td>{{document.id}}.</td>
-                <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" >{{ document.docfile.name }}</td>
+                <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" >{{ document }}</td>
                 <td>{{document.publish_date}}</td>
                 <td>{{document.publish_time}}</td>
                 <td>
@@ -64,7 +64,7 @@
               {% if document.author == user %}
               <tr>
                 <td>{{document.id}}.</td>
-                <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" >{{ document.docfile.name }}</td>
+                <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" >{{ document }}</td>
                 <td>{{document.publish_date}}</td>
                 <td>{{document.publish_time}}</td>
                 <td>

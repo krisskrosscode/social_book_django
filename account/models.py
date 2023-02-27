@@ -19,6 +19,7 @@ class CustomUser(AbstractUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_author = models.BooleanField(default=False)
+    # profile_picture = models.ImageField(upload_to='profile_pictures/{CustomUser.id}/', default='profile_pictures/default.png')
 
     # date_joined = models.DateTimeField(default=timezone.now)
 
@@ -55,15 +56,19 @@ class Book(models.Model):
         if filename.file.content_type != 'application/pdf':
             raise ValidationError(u' ERROR : You can upload only a pdf file')
 
+
     docfile = models.FileField(
         upload_to='documents/%Y/%m/%d',
         default='SampleFilename',
         validators=[validate_file_extension],
         )
+    
     publish_date = models.DateField(default=timezone.now)
     publish_time = models.TimeField(default=timezone.now)
     pen_name = models.CharField(max_length=100, default='None')
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=get_user_model())
-    # uploaded_by = models.CharField(max_length=100, default=get_user_model())
-
+    
     REQUIRED_FIELDS = ["docfile", "pen_name"]
+
+    def __str__(self):
+        return self.docfile.name.split('/')[-1]

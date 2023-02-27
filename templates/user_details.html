@@ -81,7 +81,7 @@
                                 {% for book in books %}
                                 <tr role="row">
                                    <td> {{book.id}}. </td>
-                                   <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" > {{book.docfile}} </td>
+                                   <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" > {{book}} </td>
                                    <td>
                                     <a href="{{ book.docfile.url }}" target="_blank">
                                         <button class="btn btn-outline-primary">Download</button>

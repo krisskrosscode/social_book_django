@@ -94,13 +94,11 @@ def upload_book(request):
         form = UploadFileForm(request.POST, request.FILES)
         # print(form)
         # form.fields['author'] = User
-        # print(form)
-        print('post method')
         if form.is_valid():
-            print('form valid')
+            # print('form valid')
             newdoc = Book(docfile=request.FILES['docfile'], author=request.user, pen_name=request.POST['pen_name'])
             newdoc.save()
-            print(newdoc.author)
+            print(newdoc.docfile.__str__)
 
             # newdoc = form.save(commit=False)
             # newdoc.docfile = request.FILES['docfile']
@@ -111,7 +109,7 @@ def upload_book(request):
             return HttpResponseRedirect(reverse('view'))
             # return render(request, 'view_uploads.html')
     else:
-        print('empty form')
+        # print('empty form')
         form = UploadFileForm()  # A empty, unbound form
     return render(request, 'upload_book.html', {'form': form})
     # 1
