@@ -242,12 +242,13 @@ def list_all_authors(request):
 @login_required(login_url="login")
 def get_user_details(request, pk):
     user = get_object_or_404(CustomUser, pk=pk)
+    logged_in_user = request.user
     filtered_books = Book.objects.filter(author=user.id)
     total_books_uploaded = len(filtered_books)
     return render(
         request,
         "user_details.html",
-        {"user": user, "books": filtered_books, "upload_count": total_books_uploaded},
+        {"user": user, "books": filtered_books, "upload_count": total_books_uploaded, 'logged_in_user': logged_in_user},
     )
 
 
