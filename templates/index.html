@@ -15,6 +15,7 @@
 
     <a href="{% url 'upload' %}">
     <div class="card card-box">
+        <img class="card-img-top" src={% static "vendors/images/upload_book_card.jpg"%} alt="Card image cap" style="object-fit:cover; height:150px; width:auto">
         <div class="card-body">
             <h5 class="card-title weight-500">Upload Book</h5>
         </div>
@@ -23,6 +24,7 @@
     <br>
     <a href="{% url 'list_books' %}">
     <div class="card card-box">
+        <img class="card-img-top" src={% static "vendors/images/book_library_card.jpg"%} alt="Card image cap" style="object-fit:cover; height:150px; width:auto">
         <div class="card-body">
             <h5 class="card-title weight-500">Library</h5>
         </div>
@@ -31,6 +33,7 @@
     <br>
     <a href="{% url 'list_all_users' %}">
     <div class="card card-box">
+        <img class="card-img-top" src={% static "vendors/images/users_card.png"%} alt="Card image cap" style="object-fit:cover; height:150px; width:auto">
         <div class="card-body">
             <h5 class="card-title weight-500">All Users</h5>
         </div>
@@ -48,14 +51,16 @@
 
     <a href="{% url 'list_books' %}">
     <div class="card card-box">
+        <img class="card-img-top" src={% static "vendors/images/book_library_card.jpg"%} alt="Card image cap" style="object-fit:cover; height:150px; width:auto">
         <div class="card-body">
-            <h5 class="card-title weight-500">Books Library</h5>
+            <h5 class="card-title weight-500">Library</h5>
         </div>
     </div>
     </a>
     <br>
     <a href="{% url 'list_all_authors' %}">
     <div class="card card-box">
+        <img class="card-img-top" src={% static "vendors/images/users_card.png"%} alt="Card image cap" style="object-fit:cover; height:150px; width:auto">
         <div class="card-body">
             <h5 class="card-title weight-500">All Authors</h5>
         </div>

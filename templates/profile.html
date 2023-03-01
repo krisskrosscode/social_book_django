@@ -1,0 +1,53 @@
+
+{% extends "base.html" %} 
+{% load crispy_forms_tags %} 
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% include 'navbar.html' %}
+{% endif %}
+<br>
+<br>
+<div class="content-section container-md">
+  
+
+  <div class="media">
+    {% comment %} <img
+      class="rounded-circle account-img"
+      src="{{ user.profile.image.url }}"
+    /> {% endcomment %}
+    <div class="media-body">
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <p class="text-secondary">{{ user.email }}</p>
+    </div>
+  </div>
+
+  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+				<div class="card-box  overflow:hidden">
+          <div class="col-md-12 col-sm-12">
+
+            <!-- FORM HERE -->
+          
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <br>
+              <fieldset class="form-group">
+                
+                <h3><legend class="border-bottom mb-4">Profile Info</legend></h3>
+                {{ u_form|crispy }}
+                <!-- User form -->
+                {{ p_form|crispy }}
+                <!-- Profile form -->
+              </fieldset>
+              <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+              </div>
+            </form>
+            <br>
+
+          </div>
+        </div>
+      </div>
+</div>
+</div>
+{% endblock content %}

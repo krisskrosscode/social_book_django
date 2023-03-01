@@ -6,8 +6,11 @@ from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-
+from PIL import Image
 # Create your models here
+
+
+
 
 class CustomUser(AbstractUser, PermissionsMixin):
     username = models.CharField(max_length=30, unique=False, default='User')
@@ -51,11 +54,34 @@ class CustomUser(AbstractUser, PermissionsMixin):
     def has_add_permission(self, request):
         return True
 
+class Profile(models.Model):
+    def get_user_id(self):
+        return self.id
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    image = models.ImageField(default='profile_pictures/default.png', upload_to='profile_pictures/users/', max_length=500)
+
+    def __str__(self) -> str:
+        return self.user.username
+    
+    
+    #  Override the save method of the model
+
+    # def save(self, *args, **kwargs):
+    #     super(Profile, self).save(*args, **kwargs)
+
+    #     img = Image.open(self.image.path)  # Open image
+
+    #     # resize image
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (50, 50)
+    #         img.thumbnail(output_size)  # Resize image
+    #         img.save(self.image.path)  # Save it again and override the larger image
+    
+
 class Book(models.Model):
     def validate_file_extension(filename):
         if filename.file.content_type != 'application/pdf':
             raise ValidationError(u' ERROR : You can upload only a pdf file')
-
 
     docfile = models.FileField(
         upload_to='documents/%Y/%m/%d',

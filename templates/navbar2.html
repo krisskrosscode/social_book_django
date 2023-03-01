@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<!-- new navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+ <div class="flex-column">
+    <div class="row">
+
+      <div class="header-left">
+        <a href="{% url 'index' %}">
+          <img src={% static "vendors/images/deskapp-logo.svg"%} alt="" class="dark-logo">
+        </a>
+  
+      </div>
+
+      <a class="nav-link" href="{% url 'list_all_users' %}"> All Users</a>
+      <a class="nav-link" href="{% url 'list_books' %}"> List Books</a>
+
+     
+    </div>
+  </div>
+</nav>
+
+
+
+{% endblock content %}

@@ -1,11 +1,10 @@
 from django.contrib import admin
-from .models import Book
+from .models import Book,CustomUser, Profile
 
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import NewUserForm, CustomUserChangeForm
-from .models import CustomUser
 
 
 class CustomUserAdmin(UserAdmin):
@@ -63,3 +62,4 @@ admin.site.register(CustomUser, CustomUserAdmin)
 
 
 admin.site.register(Book)
+admin.site.register(Profile)

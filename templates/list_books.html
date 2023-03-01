@@ -51,7 +51,7 @@
                 <td>{{document.pen_name}}</td>
                 <td>
                   <a href="{{ document.docfile.url }}" target="_blank">
-                    <button class="btn btn-outline-primary">Download</button>
+                    <button type="submit" value={{document.docfile.url}} onclick="location.href='{% url 'sendemail' pk=user.id bid=document.id %}'" class="btn btn-outline-primary" id="download-button">Download</button>
                   </a>
                 </td>
               </tr>
@@ -74,9 +74,9 @@
                 </td>
                 <td>{{document.pen_name}}</td>
                 <td>
-                  <a href="{{ document.docfile.url }}" target="_blank">
-                    <button class="btn btn-outline-primary">Download</button>
-                  </a>
+                   <a href="{{ document.docfile.url }}" target="_blank"> 
+                    <button type="submit" value={{document.docfile.url}} onclick="location.href='{% url 'sendemail' pk=user.id bid=document.id %}'" class="btn btn-outline-primary" id="download-button">Download</button>
+                  </a> 
                 </td>
               </tr>
               {% endif %}
@@ -107,6 +107,23 @@ const checkbox = document.getElementById('are_my_books')
         $("#body1").show();
       }
     }) 
+
+</script>
+
+<script>
+  {% comment %} var btn = document.getElementById('download-button')
+
+  btn.addEventListener('click' function(){
+    console.log('Clicked download button')
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'sendemail' user.id %}",
+      success: function (){
+        console.log("Email sent successfully");
+      }
+    })
+  }) {% endcomment %}
+
 
 </script>
 

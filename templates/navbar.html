@@ -2,68 +2,107 @@
 {% load static %}
 {% block content %}
 
-<!--Navbar-->
+
+<!-- new navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="row">
+
+      <div class="header-left">
+        <a href="{% url 'index' %}">
+          <img src={% static "vendors/images/deskapp-logo.svg"%} alt="" class="dark-logo">
+        </a>
+  
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <div class="row">
+        
+        <a class="nav-link" href="/admin">Admin Panel</a>
+
+       
+        {% comment %} <a class="nav-link" href="{% url 'user_details' user.id  %}"><i class="dw dw-user1"></i> Profile</a> {% endcomment %}
+        
+        {% comment %} <a class="nav-link" href="{% url 'profile' %}"><i class="dw dw-settings2"></i> Edit Profile</a> {% endcomment %}
+
+         {% comment %} <a class="nav-link" href="{% url 'logout' %}"> Logout </a> {% endcomment %}
+
+         <a class="nav-link disabled">Welcome, {{user.username}}</a>
+
+         <a class="nav-fill" id="dp" href="#" data-toggle="modal" data-target="#Medium-modal" >
+
+           <span class="user-icon">
+             <img class="rounded-circle account-img" src={{user.profile.image.url}} alt="" style="object-fit: cover;width:50px; height:50px">
+             
+            </span>
+          </a>
+          
+          {% comment %} <button type="button" class="btn btn-danger" href="{% url 'logout' %}" >Logout</button> {% endcomment %}
+          
+    </div>
 
   
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  {% comment %} <a class="navbar-brand" href="{% url 'index' %}" > <img src=src="{% static '/vendors/images/deskapp-logo.svg' %}"></img></a> {% endcomment %}
-
-  <a href="{% url 'index' %}">
-				<img src={% static "vendors/images/deskapp-logo.svg"%} alt="" style="width:50%; height:auto %" class="dark-logo">
-			</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="False" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarText" >
-    <ul class="navbar-nav mr-auto">
-      {% if user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'index' %}"> | Home   | </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled">Welcome, {{user.username}}</a>
-      </li>
-      
-      <li class="nav-item">
-        <a class="nav-link" href="/admin">Admin Panel</a>
-      </li>
- 
- 
-      <li class="nav-item" >
-        <a class="nav-link" href="/logout" style="color:red">Logout</a>
-      </li>
-      {% else %}
-
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
-
-      <li class="nav-item">
-        <div class="user-info-dropdown">
-					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-						<span class="user-icon">
-							{% comment %} <img src="{% static {user.profile_picture} %}" alt=""> {% endcomment %}
-						</span>
-						<span class="user-name">{{user.username}}</span>
-					</a>
-					<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-						<a class="dropdown-item" href="{% url 'user_details' %}"><i class="dw dw-user1"></i> Profile</a>
-						<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-						<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a>
-						<a class="dropdown-item" href="login.html"><i class="dw dw-logout"></i> Log Out</a>
-					</div>
-			</div>
-      </li>
-      {% endif %}
-    
-    </ul>
-  </div>
-
- 
-    {% comment %} <button class="btn btn-secondary btn-d-sm-block" disabled=""> {% if user.is_author %}Author {% else %} User {% endif %} </button> {% endcomment %}
-    
-    
 </nav>
 
+<!-- Modal -->
+ 
+<div class="modal" id="Medium-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none; padding-right: 17px;" aria-modal="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title" id="myLargeModalLabel">Profile</h4>
+											
+										</div>
+										<div class="modal-body">
+                                  
+                          <a class="dropdown-item" href="{% url 'user_details' user.id  %}"><i class="dw dw-user1"></i> User Details</a>
+                
+                    
+                      <a class="dropdown-item" href="{% url 'profile' %}"><i class="dw dw-settings2"></i> Edit Profile</a>
+                      
+										</div>
+										<div class="modal-footer">
+                      <a href="{% url 'logout' %}">
+											  <button type="button" class="btn btn-danger" href="{% url 'logout' %}" >Logout</button>
+                      </a>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+											
+										</div>
+									</div>
+								</div>
+							</div> 
+
+
+<!--Navbar-->
+  
+{% comment %} <div id="Medium-modal">
+  <a class="dropdown-item" href="{% url 'user_details' user.id  %}"><i class="dw dw-user1"></i> User Details</a>
+                
+                    
+  <a class="dropdown-item" href="{% url 'profile' %}"><i class="dw dw-settings2"></i> Edit Profile</a>
+</div> {% endcomment %}
+
+ <script 
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+  {% comment %} $('#Medium-modal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+}) {% endcomment %}
+
+var dp = document.querySelector('#dp')
+var modal = document.querySelector('.modal')
+
+function openModal(){
+  modal.style.display = 'block';
+}
+
+dp.onclick = openModal;
+</script>
+
+  <script src={% static "vendors/scripts/core.js"%}></script>
+	<script src={% static "vendors/scripts/script.min.js"%}></script>
+	<script src={% static "vendors/scripts/process.js"%}></script>
+	<script src={% static "vendors/scripts/layout-settings.js"%}></script>
 
 {% endblock content %}

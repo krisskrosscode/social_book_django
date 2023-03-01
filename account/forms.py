@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import Book, CustomUser
+from .models import Book, CustomUser, Profile
 from crispy_forms.helper import FormHelper
 from django.contrib.auth import get_user_model
 from PIL import Image
@@ -60,6 +60,12 @@ class UploadFileForm(forms.ModelForm):
             'id': 'pen_name'
         })
     )
+
+    # Create a ProfileUpdateForm to update image.
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
 
     
     # UserInstance = get_user_model()

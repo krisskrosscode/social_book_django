@@ -29,7 +29,7 @@
           <table class="data-table table stripe " id="DataTables_Table_0" role="grid">
             <thead>
               <tr>
-                <th>User ID</th>
+                <th>Book ID</th>
                 <th>uploaded pdf</th>
                 <th>Publish Date</th>
                 <th>Publish Time</th>
@@ -76,7 +76,7 @@
                 <td>{{document.pen_name}}</td>
                 <td>
                   <a href="{{ document.docfile.url }}" target="_blank">
-                    <button class="btn btn-outline-primary">Download</button>
+                    <button type="submit" value={{document.docfile.url}} onclick="location.href='{% url 'sendemail' pk=user.id %}'" class="btn btn-outline-primary">Download</button>
                   </a>
                 </td>
               </tr>

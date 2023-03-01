@@ -32,6 +32,8 @@
               </thead>
 							<tbody id="body1" >
 								{% for user in all_users %}
+                 
+                  
                   <tr role="row">
                       <td >{{user.id}} 
                       <td > {{user.username}} </td>
@@ -39,6 +41,8 @@
                       <td > <a href="{% url 'user_details' pk=user.id %}"> view details </a> </td>
                      
                   </tr>
+                  
+                  
                 {% endfor %}
 							</tbody>
               <tbody id="body2" style="display:none;">

@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-    {% include 'navbar.html' %}
+    {% include 'navbar2.html' %}
 {% endif %}
 
 <br><br><br>
@@ -11,27 +11,68 @@
 {% if not user.is_author %}
 
 <div class="container-md">
-            <div class="page-header">
-					<div class="row">
-						<div class="col-md-12 col-sm-12">
-							<div class="title">
-								<h4> Welcome User {{user.username}} <button class="btn btn-secondary btn-d-sm-block" disabled="">User</button></h4> </h4>
-							</div>
+            <div class="row">
 
-                            <div class="fa-paragraph">
-                                User id : {{user.id}} <br>
-                                Username : {{user.username}}<br>
-                                Email : {{user.email}}<br>
-                                Date Joined :  {{user.date_joined}}<br>
-                                Is author : {{user.is_author}}<br>
-                                Is Staff : {{user.is_staff}}<br>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+                            <div class="pd-20 card-box height-100-p">
+                                <div class="profile-photo">
+                                    <a href="{% url 'profile' %}" data-toggle="modal" data-target="#modal" class="edit-avatar" ><i class="fa fa-pencil"></i></a>
+                                    <img src="{{user.profile.image.url}}" alt="" class="avatar-photo" style="object-fit:cover; width:170px; height:170px" >
+                                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body pd-5">
+                                                    <div class="img-container">
+                                                        <img id="image" src="vendors/images/photo2.jpg" alt="Picture">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Update" class="btn btn-primary">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="text-center h5 mb-0">{{user}}</h5>
+                                <p class="text-center mb-0">User</p>
+    
+    
+    
+                                <p></p>
+                                <div class="profile-info ">
+                                    <h5 class="mb-20 h5 text-blue text-center">Contact Information</h5>
+                                    <ul>
+                                        <li>
+                                            <span>User ID:</span>
+                                            {{user.id}}
+                                        </li>
+                                        <li>
+                                            <span>Email Address:</span>
+                                            {{user.email}}
+                                        </li>
+                                        
+                                        <li>
+                                            <span>Join Date:</span>
+                                            {{user.date_joined}}
+                                            
+                                        </li>
+                                        <li>
+                                            <span>Is Staff:</span>
+                                            {{user.is_staff}}
+                                            
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                                
                             </div>
+                        </div>
+                    
+                        
+            </div>
 
-							
-						</div>
-					</div>
-				</div>
-        </div>
+
 
 
 
@@ -42,34 +83,76 @@
     {% else %}
 
         <div class="container-md">
-            <div class="page-header">
-					<div class="row">
-						<div class="col-md-12 col-sm-12">
-							<div class="title">
-								<h4> Welcome {{user.username}} <button class="btn btn-secondary btn-d-sm-block" disabled="">Author</button></h4>
-							</div>
+            <div class="row">
 
-                            <div class="fa-paragraph">
-                                User id : {{user.id}}<br>
-                                Author name : {{user.username}} <br>
-                                Join Date : {{user.date_joined}}<br>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+                            <div class="pd-20 card-box">
+                                <div class="profile-photo">
+                                    <a href="{% url 'profile' %}" data-toggle="modal" data-target="#modal" class="edit-avatar"><i class="fa fa-pencil"></i></a>
+                                    <img src="{{user.profile.image.url}}" alt="" class="avatar-photo" style="object-fit:cover; width:170px; height:170px">
+                                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body pd-5">
+                                                    <div class="img-container">
+                                                        <img id="image" src="vendors/images/photo2.jpg" alt="Picture">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="submit" value="Update" class="btn btn-primary">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="text-center h5 mb-0">{{user}}</h5>
+                                <p class="text-center mb-0">Author</p>
+    
+    
+    
+                                <p></p>
+                                <div class="profile-info ">
+                                    <h5 class="mb-20 h5 text-blue text-xl-center">Contact Information</h5>
+                                    <ul>
+    
+                                        
+                                        <li>
+                                            <span>User ID:</span>
+                                            {{user.id}}
+                                        </li>
+                                        <li>
+                                            <span>Email Address:</span>
+                                            {{user.email}}
+                                        </li>
+                                        
+                                        <li>
+                                            <span>Join Date:</span>
+                                            {{user.date_joined}}
+                                            
+                                        </li>
+
+                                        <li>
+                                            <span>Total number of Books uploaded:</span>
+                                            {{upload_count}}
+                                            
+                                        </li>
+                                    </ul>
+                                </div>
+                                
                             </div>
+                        </div>
+                    
 
-							
-						</div>
-					</div>
-				</div>
-        </div>
-
-        <div class="container-md">
-            <div class="page-header">
-					<div class="row">
-						<div class="col-md-12 col-sm-12">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+						<div class="card-box  overflow-x:hidden">
+                            
+                            <div class="col-md-12 col-sm-12">
 							<div class="title">
-								<h3> Books uploaded by {{user.username}} </h3><br>
+								<h3 class="text-center"> Books uploaded by {{user.username}} </h3><br>
 							</div>
 
-                            <table class="data-table table stripe hover" id="DataTables_Table_0" role="grid" >
+                            <table class="data-table table stripe hover overflow-scroll" id="DataTables_Table_0" role="grid"  >
 							<thead>
 								{% comment %} <tr role="row"><th class="table-plus datatable-nosort sorting_asc" rowspan="1" colspan="1" aria-label="Name">User name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Office</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Address: activate to sort column ascending">Address</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">Start Date</th><th class="datatable-nosort sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="display: none;">Action</th></tr> {% endcomment %}
                                 <tr >
@@ -84,7 +167,7 @@
                                    <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" > {{book}} </td>
                                    <td>
                                     <a href="{{ book.docfile.url }}" target="_blank">
-                                        <button class="btn btn-outline-primary">Download</button>
+                                        <button type="submit" value={{document.docfile.url}} onclick="location.href='{% url 'sendemail' pk=user.id bid=book.id %}'" class="btn btn-outline-primary">Download</button>
                                     </a>
                                     </td>
                                 </tr>
@@ -95,16 +178,13 @@
                         </table>
 							
 						</div>
+
+						</div>
 					</div>
-				</div>
-        </div>
-    
-        <div class="container-md"> 
-            <div class="page-header">
-            <bold> Total Number of books uploaded :  {{upload_count}}</bold>
+                        
             </div>
-        </div>
-<br><br><br>
+
+        
         
 
 {% endif %}

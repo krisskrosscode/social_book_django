@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+{% load content %}
+
+<p> Thank You {{user}} for downloading the book from our website. <br>
+    We have also sent an email to your registered email id {{user.email}}<br></p>
+
+
+    {{document.docfile.url}}
+{% endblock %}
