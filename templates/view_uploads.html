@@ -76,7 +76,7 @@
                 <td>{{document.pen_name}}</td>
                 <td>
                   <a href="{{ document.docfile.url }}" target="_blank">
-                    <button type="submit" value={{document.docfile.url}} onclick="location.href='{% url 'sendemail' pk=user.id %}'" class="btn btn-outline-primary">Download</button>
+                    <button type="submit" value={{document.docfile.url}} onclick="location.href='{% url 'sendemail' pk=user.id bid=document.id %}'" class="btn btn-outline-primary">Download</button>
                   </a>
                 </td>
               </tr>

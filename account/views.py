@@ -216,7 +216,6 @@ def show_users(request):
     return render(request, "show_users.html", params)
 
 @login_required(login_url="login")
-@add_profile_pic
 def list_books(request):
     documents = Book.objects.all()
     return render(request, "list_books.html", {"documents": documents})
@@ -262,7 +261,6 @@ def get_user_details(request, pk):
 
 
 @login_required(login_url="login")
-@add_profile_pic
 def profile(request):
     Profile.objects.get_or_create(user=request.user)
     if request.method == "POST":

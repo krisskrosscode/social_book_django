@@ -3,15 +3,44 @@
 {% block content %}
 
 
+<div class="login-header box-shadow">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+			<div class="brand-logo">
+				<a href="{% url 'index' %}">
+					<img src={% static "vendors/images/deskapp-logo.svg"%} alt="">
+				</a>
+			</div>
+			<div class="row">
+				<ul>
+					<a class="nav-link" href="/admin">Admin Panel</a>
+				</ul>
+          <a class="nav-link disabled">Welcome, {{user.username}}</a>
+        <ul>
+				</ul>
+          <a class="nav-fill" id="dp" href="#" data-toggle="modal" data-target="#Medium-modal" >
+
+           <span class="user-icon">
+             <img class="rounded-circle account-img" src={{user.profile.image.url}} alt="" style="object-fit: cover;width:50px; height:50px">
+             
+            </span>
+          </a>
+        <ul>
+
+        </ul>
+			</div>
+		</div>
+	</div>
+
 <!-- new navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="row">
 
       <div class="header-left">
+      
         <a href="{% url 'index' %}">
           <img src={% static "vendors/images/deskapp-logo.svg"%} alt="" class="dark-logo">
         </a>
-  
+      
       </div>
     </div>
     
@@ -20,12 +49,6 @@
         
         <a class="nav-link" href="/admin">Admin Panel</a>
 
-       
-        {% comment %} <a class="nav-link" href="{% url 'user_details' user.id  %}"><i class="dw dw-user1"></i> Profile</a> {% endcomment %}
-        
-        {% comment %} <a class="nav-link" href="{% url 'profile' %}"><i class="dw dw-settings2"></i> Edit Profile</a> {% endcomment %}
-
-         {% comment %} <a class="nav-link" href="{% url 'logout' %}"> Logout </a> {% endcomment %}
 
          <a class="nav-link disabled">Welcome, {{user.username}}</a>
 
@@ -37,12 +60,12 @@
             </span>
           </a>
           
-          {% comment %} <button type="button" class="btn btn-danger" href="{% url 'logout' %}" >Logout</button> {% endcomment %}
+         
           
     </div>
 
   
-</nav>
+</nav> {% endcomment %}
 
 <!-- Modal -->
  

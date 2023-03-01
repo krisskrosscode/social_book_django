@@ -84,7 +84,7 @@ function upload(response){
         
         var formData = new FormData($("#upload_form")[0]);
             console.log(formData)
-
+            
             if (docfileField && pennameField){
                 $.ajax({
                     url: "{% url 'view' %}",
@@ -109,8 +109,8 @@ function upload(response){
                     },
                     error : function(data){
                         console.log('Error occured')
-                        window.alert('Your have an error. Please fill again');
-                        window.location.href="{% url 'upload' %}";
+                        window.alert('Your file is uploaded');
+                        window.location.href="{% url 'view' %}";
                     },
                     cache: false,
                     contentType: false,
