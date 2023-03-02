@@ -3,11 +3,16 @@
 {% load static %}
 {% block content %}
 
+
+
 {% if user.is_authenticated%}
     {% include "navbar.html" %}
 {% endif %}
 
+{% comment %} Number of visits on site : {{visits}} {% endcomment %}
+
 <br>
+
 {% if user.is_author %}
 
 <div class="row gy-5">					
@@ -70,6 +75,8 @@
 </div>
 </div>
 {% endif %}
+
+
 
 
 {% endblock  %}

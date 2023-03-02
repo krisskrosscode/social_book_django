@@ -123,6 +123,21 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Added by harshal : Sessions
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table'
+    }
+}
+
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
+# ================|||||||============|||||||||===========================
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
