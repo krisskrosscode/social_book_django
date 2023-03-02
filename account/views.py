@@ -127,9 +127,6 @@ def logout_request(request):
 
 def upload_book(request):
     User = get_user_model()
-    # if request.user.is_authenticated:
-    #     user_inst = request.user.username
-    # initial_dict = {'author': user_inst}
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
         # print(form)
@@ -156,41 +153,6 @@ def upload_book(request):
         # print('empty form')
         form = UploadFileForm()  # A empty, unbound form
     return render(request, "upload_book.html", {"form": form})
-    # 1
-    # if request.method == 'POST':
-    #     uploaded_file = request.FILES['document']
-    #     fs = FileSystemStorage()
-    #     file = fs.save(uploaded_file.name, uploaded_file)
-    #     url = fs.url(file)
-    #     context['url'] = url
-
-    # 2
-    # context = {}
-    # if request.method == 'POST':
-    #     form = UploadFileForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         # file is saved
-    #         form.save()
-    #         return redirect('view_uploads')
-    # else:
-    #     form = UploadFileForm()
-    #     context['upload_book_form'] = form
-
-    # 3
-    # if request.method == 'POST':
-    #     form = UploadFileForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         handle_uploaded_file(request.FILES['file'])
-    #         context = {'msg': '<span style="color: green;">File successfully uploaded</span>'}
-    #         return render(request, "upload_book.html", context)
-    # else:
-    #     form = UploadFileForm()
-
-    # context['form'] = form
-    # authors = CustomUser.objects.filter(is_author=True)
-    # context['authors'] = authors
-    # return render(request, 'upload_book.html', context)
-
 
 def handle_uploaded_file(f):
     with open(f.name, "wb+") as destination:
