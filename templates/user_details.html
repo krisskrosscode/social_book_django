@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+
+
 {% block content %}
 
 {% if user.is_authenticated %}
@@ -156,7 +158,7 @@
 								<h3 class="text-center"> Books uploaded by {{user.username}} </h3><br>
 							</div>
 
-                            <table class="data-table table stripe hover overflow-scroll" id="DataTables_Table_0" role="grid"  >
+                            <table class="data-table table stripe hover" id="DataTables_Table_0" role="grid"  >
 							<thead>
 								{% comment %} <tr role="row"><th class="table-plus datatable-nosort sorting_asc" rowspan="1" colspan="1" aria-label="Name">User name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Age</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">Office</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Address: activate to sort column ascending">Address</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending">Start Date</th><th class="datatable-nosort sorting_disabled" rowspan="1" colspan="1" aria-label="Action" style="display: none;">Action</th></tr> {% endcomment %}
                                 <tr >
