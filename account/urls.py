@@ -3,11 +3,14 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+# cache 
+from django.views.decorators.cache import cache_page
+
 urlpatterns = [
     path("", views.register_request, name='register'),
     path("register/", views.register_request, name='register'),
     path("login/", views.login_request, name='login'),
-    path("index/", views.index, name='index'),
+    path("index/", cache_page(60)(views.index), name='index'),
     path("logout/", views.logout_request, name='logout'),
     path("upload_books/", views.upload_book, name='upload'),
     path("view_books/", views.view_books, name='view'),
@@ -18,7 +21,8 @@ urlpatterns = [
     path('user_details/<int:pk>/', views.get_user_details, name='user_details'),
     path('profile/', view=views.profile, name='profile'),
     path('sendemail/<int:pk>/<int:bid>/', view=views.sendemail, name='sendemail'),
-    path('download-ready/', view=views.download_ready, name='download-ready')
+    path('download-ready/', view=views.download_ready, name='download-ready'),
+    path('testsession/', views.testsession)
     # path('api/login', view=views.token_login_request, name='token_login'),
     # path('auth/', obtain_auth_token),
 ]

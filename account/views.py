@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .forms import NewUserForm, UploadFileForm, ProfileUpdateForm, CustomUserChangeForm
@@ -12,6 +12,7 @@ from django.contrib.auth import get_user_model
 from .models import Book, CustomUser, Profile
 from django.db.models import Count
 from django.conf import settings
+from datetime import datetime
 
 # send emails
 from django.core import mail
@@ -19,6 +20,11 @@ from django.core.mail import send_mail
 
 # custom wrapper
 from .decorators import add_profile_pic
+
+
+# caching 
+from django.views.decorators.cache import cache_page
+
 
 def register_request(request):
     if request.method == "POST":
@@ -45,6 +51,7 @@ def login_request(request):
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
             if user is not None:
+                request.session['username'] = username  # create cache
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect("index")
@@ -84,12 +91,37 @@ def login_request(request):
 
 @login_required(login_url="login")
 def index(request):
-    return render(request, "index.html")
+    visits = int(request.COOKIES.get('visits', '0'))
+
+    context = {
+        'visits': visits
+    }
+    response = render(request, template_name="index.html", context=context)
+
+    if 'last_visit' in request.COOKIES:
+        last_visit = request.COOKIES['last_visit']
+        # the cookie is a string - convert back to a datetime type
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+        curr_time = datetime.now()
+        if (curr_time - last_visit_time).days > 0:
+            # if at least one day has gone by then inc the visit count.
+            response.set_cookie('visits', visits + 1)
+            response.set_cookie('last_visit', datetime.now())
+        else:
+            response.set_cookie('last_visit', datetime.now())
+    return render(request, "index.html", context)
 
 
 def logout_request(request):
-    logout(request)
-    messages.info(request, "You have successfully logged out.")
+
+    try:
+        del request.session['username']
+        logout(request)
+        messages.info(request, "You have successfully logged out.")
+
+    except Exception as e:
+        return redirect("login")
+
     return redirect("login")
 
 
@@ -216,6 +248,7 @@ def show_users(request):
     return render(request, "show_users.html", params)
 
 @login_required(login_url="login")
+@cache_page(30)
 def list_books(request):
     documents = Book.objects.all()
     return render(request, "list_books.html", {"documents": documents})
@@ -317,3 +350,13 @@ def sendemail(request, pk, bid):
 @login_required(login_url="login")
 def download_ready(request):
     return render(request, 'download-ready.html')
+
+
+def testsession(request):
+    if request.session.get('test', False):
+        print(request.session['test'])
+    
+    # request.session.set_expiry(1)
+    request.session['test'] = 'testing'
+    request.session['test2'] = 'testing2'
+    return render(request, 'testsession.html')
